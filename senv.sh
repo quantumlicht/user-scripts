@@ -25,9 +25,9 @@ getCurrentEnv () {
 
 restartServer () {
    configPath=$1
-   nginx -s stop
+   sudo nginx -s stop
    echo "Booting Nginx using config ${configPath}"
-   nginx -c ${configPath}
+   sudo nginx -c ${configPath}
 }
 
 #### OPTION PARSING
