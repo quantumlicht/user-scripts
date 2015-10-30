@@ -1,18 +1,20 @@
 #!/bin/bash
 ###
 # User script to ease the process of changing environment settings
-# When working with a local development proxy setup
+
 # Also takes care of checking out the appropriate branch if you have a feature branch for that
 ###
 
-repoPath="$HOME/git"
-techopsFolderName="demo-ops-console"
+REPO_PATH="$HOME/git"
+TECHOPS_FOLDER="demo-ops-console"
 TARGET_ENV="dev"
 CONFIG_PATH="$HOME/nginx.conf"
 DEFAULT_BRANCH="master"
 ENVS=( qa dev sandpit )
+BRANCH=
 ### HELPER METHODS
 getCurrentEnv () {
+ #TODO: Interrogate current running Nginx Process to know if we are running an environment specific config. That will tell us the currentEnv more accurately. 
  for env in "${ENVS[@]}"
  do
    #echo "VALUE:`grep -c "${env}" ${CONFIG_PATH}`"
@@ -35,6 +37,10 @@ while [[ $# > 1 ]]
 do
 key="$1"
 case $key in
+  -h|--help)
+  echo "[-h --help] Help  [-c --conf --config] Nginx Config path [-b --branch] Branch to checkout [-e --env] target environment"
+  shift
+  ;;
   -c|--conf|--config)
   CONFIG_PATH="$2"
   shift
@@ -44,9 +50,11 @@ case $key in
   shift
   ;;
   -e|--env)
-   TARGET_ENV="$2"
-   shift 
+  TARGET_ENV="$2"
+  shift 
   ;;
+  -f)
+  CREATE_BRANCH="true"  
 esac
 done
 
@@ -68,21 +76,28 @@ fi
 
 ###
 echo "------BRANCH CHECKOUT----"
-checkoutPath="${repoPath}/${techopsFolderName}"
+checkoutPath="${REPO_PATH}/${TECHOPS_FOLDER}"
 cd ${checkoutPath}
-git rev-parse --verify ${BRANCH}
-if [ $? == 0 ] && [ -z "$BRANCH" ]
+echo "BRANCH: ${BRANCH}"
+git show-ref --verify --quiet refs/heads/${BRANCH}
+if [ $? == 0 ] && [ "$BRANCH" != "" ]
 then
    echo "Branch ${BRANCH} was found."
 else
-   git rev-parse --verify ${TARGET_ENV}
+   git show-ref --verify --quiet refs/heads/${BRANCH}
    if [ $? == 0 ]
    then
      echo "An environment specific branch was found. Will use ${TARGET_ENV} branch"
      BRANCH=${TARGET_ENV}
    else
-     echo "No branch specified or unknown branch ${BRANCH}.  Will use ${DEFAULT_BRANCH}"
-     BRANCH=${DEFAULT_BRANCH}
+     if [ "${CREATE_BRANCH}" == "true" ]
+     then
+       echo "creating new branch ${BRANCH}"
+       git branch ${BRANCH}
+     else
+       echo "No branch specified or unknown branch ${BRANCH}.  Will use ${DEFAULT_BRANCH}"
+       BRANCH=${DEFAULT_BRANCH}
+     fi
    fi
 fi
 echo "Checking out ${BRANCH} at path ${checkoutPath}"
@@ -100,14 +115,21 @@ fi
 
 ###
 echo "-----CLIENT SERVER RESTART-----"
-emberProc=$(pgrep 'ember')
-echo "Ember Proc [${emberProc}]"
-if [ "${emberProc}" != "" ]
+if [ ${BRANCH} == ${TARGET_ENV} ]
 then
-  echo "Killing Ember process ${emberProc}"
-  kill -9 ${emberProc}
+ echo "No need to restart Ember already on ${TARGET_ENV}"
+else
+  emberProc=$(pgrep 'ember')
+  echo "Ember Proc [${emberProc}]"
+  if [ "${emberProc}" != "" ]
+  then
+    echo "Killing Ember process ${emberProc}"
+    kill -9 ${emberProc}
+  fi
+  echo "Installing dependencies (npm + bower)"
+  npm install && bower install
+  echo "Restarting Ember server"
+  cd "${REPO_PATH}/${TECHOPS_FOLDER}"
+  ember s &
 fi
-echo "Restarting Ember server"
-cd "${repoPath}/${techopsFolderName}"
-ember s &
 
