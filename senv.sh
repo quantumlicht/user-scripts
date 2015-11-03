@@ -22,7 +22,7 @@ initScript () {
 generateConfigFromTemplate () {
   # We validate that a template file is present
   echo "${CONFIG_PATH}.${TARGET_ENV}"
-  if [ ! -f "${CONFIG_PATH}.${TARGET_ENV}" ] || [ ! -f "${CONFIG_PATH}.${TARGET_ENV}.template" ]
+  if [ ! -f "${CONFIG_PATH}.${TARGET_ENV}.template" ]
   then
     echo "Environment Specific file not found. If you want to have custom hosts you should specify a template config for your environment"
     exit 0
@@ -42,6 +42,8 @@ generateConfigFromTemplate () {
     replaceHosts
 
     # Replacing current file by this work file
+    echo "Copying ${CONFIG_PATH}.${TARGET_ENV}.tmp to ${CONFIG_PATH}.${TARGET_ENV}"
+    cp "${CONFIG_PATH}.${TARGET_ENV}.tmp" "${CONFIG_PATH}.${TARGET_ENV}"
 
   fi
 
@@ -101,22 +103,7 @@ replaceHosts () {
       sed -i '' "s/\%${hostname}_HOST\%/${!env_host}/g" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
     fi
   done
-  echo "Copying ${CONFIG_PATH}.${TARGET_ENV}.tmp to ${CONFIG_PATH}.${TARGET_ENV}"
-  cp "${CONFIG_PATH}.${TARGET_ENV}.tmp" "${CONFIG_PATH}.${TARGET_ENV}"
 }
-
-
-# REPO_PATH="$HOME/git"
-# TECHOPS_FOLDER="demo-ops-console"
-# TARGET_ENV="dev"
-# CONFIG_PATH="$HOME/nginx.conf"
-# HOST_FILE="$HOME/hosts.conf"
-# DEFAULT_BRANCH="master"
-# ENVS=( qa dev sandpit )
-# BRANCH=
-# initialBranch=$(getCurrentBranch)
-# CHECKOUT_PATH="${REPO_PATH}/${TECHOPS_FOLDER}"
-# USER="philippeguay"
 
 #### OPTION PARSING
 echo "---INIT----"
@@ -132,10 +119,6 @@ case $key in
   ;;
   -c|--conf|--config)
     CONFIG_PATH="$2"
-    shift
-  ;;
-  --host)
-    HOST_PATH="$2"
     shift
   ;;
   -b|--branch)
@@ -196,18 +179,6 @@ done
 echo "-----ENVIRONMENT SWITCH---"
 currentEnv=$(getCurrentEnv)
 generateConfigFromTemplate
-####
-# if [ "${LOCAL_SCHEDULER}" == "true" ] || [ "${LOCAL_CENTRAL}" == "true" ] || [ "${LOCAL_DATASOURCE}" == "true" ] || [ "${LIBRARY_HOST}" == "true" ]
-# then
-#   if [ ! -f "${CONFIG_PATH}.${TARGET_ENV}" ] || [ ! -f "${CONFIG_PATH}.${TARGET_ENV}.template" ]
-#   then
-#     echo "Environment Specific file not found. If you want to have custom hosts you should specify a template config for your environment"
-#     exit 0
-#   else
-#     generateConfigFromTemplate
-#   fi
-# fi
-
 
 cd ${CHECKOUT_PATH}
 if [ ${currentEnv} == ${TARGET_ENV} ]
@@ -226,26 +197,28 @@ fi
 ###
 echo "------BRANCH CHECKOUT----"
 # cd ${CHECKOUT_PATH}
-runAsUser "git show-ref --verify --quiet refs/heads/${BRANCH}"
-
+git show-ref --verify --quiet refs/heads/${BRANCH}
+res=$?
 if [ "${SAME_BRANCH}" != "true" ]
 then
-  if [ $? == 0 ] && [ "$BRANCH" != "" ]
+  if [ "${res}" == "0" ]
   then
-    echo "Branch ${BRANCH} was found."
+    echo "Branch [${BRANCH}] was found."
     checkoutBranch ${BRANCH}
   else
-    runAsUser "git show-ref --verify --quiet refs/heads/${TARGET_ENV}"
-    if [ $? == 0 ]
+    if [ "${CREATE_BRANCH}" == "true" ]
     then
-      echo "An environment specific branch was found. Will use ${TARGET_ENV} branch"
-      checkoutBranch ${TARGET_ENV}
+      echo "creating new branch ${BRANCH}"
+      runAsUser "git checkout ${DEFAULT_BRANCH}"
+      runAsUser "git pull origin ${DEFAULT_BRANCH}"
+      runAsUser "git branch ${BRANCH}"
+      checkoutBranch ${BRANCH}
     else
-      if [ "${CREATE_BRANCH}" == "true" ]
+      git show-ref --verify --quiet refs/heads/${TARGET_ENV}
+      if [ $? == 0 ]
       then
-        echo "creating new branch ${BRANCH}"
-        runAsUser "git branch ${BRANCH}"
-        checkoutBranch ${BRANCH}
+        echo "An environment specific branch was found. Will use ${TARGET_ENV} branch"
+        checkoutBranch ${TARGET_ENV}
       else
         echo "No branch specified or unknown branch ${BRANCH}.  Will use ${DEFAULT_BRANCH}"
         checkoutBranch ${DEFAULT_BRANCH}
