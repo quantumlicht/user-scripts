@@ -10,34 +10,46 @@ BRANCH=
 initialBranch=$(getCurrentBranch)
 CHECKOUT_PATH="${REPO_PATH}/${TECHOPS_FOLDER}"
 USER="philippeguay"
-
+SERVICES=( SCHEDULER DATASOURCE CENTRAL REPORTER LIBRARY AGENT LAYOUTENGINE )
 
 #SCHEDULER
-DEV_SCHEDULER_HOST="ops-dev.videri.com/scheduler/"
-SANDPIT_SCHEDULER_HOST="ops-sandpit.videri.com/scheduler/"
-QA_SCHEDULER_HOST="ops-qa.videri.com/scheduler/"
-LOCAL_SCHEDULER_HOST="http://localhost:3000/v1/"
+DEV_SCHEDULER_HOST=""
+SANDPIT_SCHEDULER_HOST=""
+QA_SCHEDULER_HOST=""
+LOCAL_SCHEDULER_HOST=""
 
 #DATASOURCE
-DEV_DATASOURCE_HOST="ops-dev.videri.com/datasource"
-SANDPIT_DATASOURCE_HOST="ops-sandpit.videri.com/datasource"
-QA_DATASOURCE_HOST="ops-qa.videri.com/datasource"
-LOCAL_DATASOURCE_HOST="https://ops.localhost.videri.com:9292/v1"
+DEV_DATASOURCE_HOST=""
+SANDPIT_DATASOURCE_HOST=""
+QA_DATASOURCE_HOST=""
+LOCAL_DATASOURCE_HOST=""
 
 #CENTRAL
-DEV_CENTRAL_HOST="ops-dev.videri.com/central"
-SANDPIT_CENTRAL_HOST="ops-sandpit.videri.com/central"
-QA_CENTRAL_HOST="ops-qa.videri.com/central"
-LOCAL_CENTRAL_HOST="https://localhost:3000"
+DEV_CENTRAL_HOST=""
+SANDPIT_CENTRAL_HOST=""
+QA_CENTRAL_HOST=""
+LOCAL_CENTRAL_HOST=""
 
 #REPORTER
-DEV_REPORTER_HOST="ops-sandpit.videri.com/reporter"
-SANDPIT_REPORTER_HOST="ops-sandpit.videri.com/reporter"
-QA_REPORTER_HOST="ops-sandpit.videri.com/reporter"
-LOCAL_REPORTER_HOST="ops-sandpit.videri.com/reporter"
+DEV_REPORTER_HOST=""
+SANDPIT_REPORTER_HOST=""
+QA_REPORTER_HOST=""
+LOCAL_REPORTER_HOST=""
 
 #LIBRARY
-DEV_LIBRARY_HOST="ops-sandpit.videri.com/library"
-SANDPIT_LIBRARY_HOST="ops-sandpit.videri.com/library"
-QA_LIBRARY_HOST="ops-sandpit.videri.com/library"
-LOCAL_LIBRARY_HOST="http://ops.localhosrt.videri.com:3000/v1"
+DEV_LIBRARY_HOST=""
+SANDPIT_LIBRARY_HOST=""
+QA_LIBRARY_HOST=""
+LOCAL_LIBRARY_HOST=""
+
+#AGENT
+DEV_AGENT_HOST=""
+SANDPIT_AGENT_HOST=""
+QA_AGENT_HOST=""
+LOCAL_AGENT_HOST=""
+
+#LAYOUTENGINE
+DEV_LAYOUTENGINE_HOST=""
+SANDPIT_LAYOUTENGINE_HOST=""
+QA_LAYOUTENGINE_HOST=""
+LOCAL_LAYOUTENGINE_HOST=""
