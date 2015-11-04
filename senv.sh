@@ -84,7 +84,6 @@ getCurrentBranch () {
 }
 
 replaceHosts () {
-  #TODO: Escape hostsname from config
 
   # Check if its the local flag has been set for this host. Override TARGET_ENV to LOCAL if yes
   # WIll also need to uppercase TARGET_ENVS
@@ -95,12 +94,13 @@ replaceHosts () {
     localhost_host="LOCAL_${hostname}_HOST"
     env_host="${upperEnv}_${hostname}_HOST"
     if [ "${!localhost}" == "true" ]
+    # Using commas for delimiters so that we don't have to escape hosts that use slashes
     then
       echo "Replacing %${hostname}_HOST% with ${!localhost_host} ${CONFIG_PATH}.${TARGET_ENV}.tmp"
-      sed -i '' "s/\%${hostname}_HOST\%/${!localhost_host}/g" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
+      sed -i '' "s,%${hostname}_HOST%,${!localhost_host},g" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
     else
       echo "Replacing %${hostname}_HOST% with ${!env_host} in ${CONFIG_PATH}.${TARGET_ENV}.tmp"
-      sed -i '' "s/\%${hostname}_HOST\%/${!env_host}/g" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
+      sed -i '' "s,%${hostname}_HOST%,${!env_host},g" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
     fi
   done
 }
@@ -109,12 +109,14 @@ replaceHosts () {
 echo "---INIT----"
 initScript
 
+#TODO: parse ":"-delimited string to represent services to run locally
 while [[ $# > 0 ]]
 do
 key="$1"
 case $key in
   -h|--help)
     echo "[-h --help] Help  [-c --conf --config] Nginx Config path [-b --branch] Branch to checkout [-e --env] target environment"
+    echo "[-s --same-br] Use current branch [--create-br] create branch"
     exit
   ;;
   -c|--conf|--config)
@@ -126,7 +128,6 @@ case $key in
     shift
   ;;
   -e|--env)
-    echo "TARGET_ENV $2"
     TARGET_ENV="$2"
     shift
   ;;
@@ -142,32 +143,36 @@ case $key in
     RESTART_CLIENT="true"
     shift
   ;;
-  --central)
+  --srvc)
     LOCAL_CENTRAL="true"
     shift
   ;;
-  --library)
+  --srvlib)
     LOCAL_LIBRARY="true"
     shift
   ;;
-  --scheduler)
+  --srvs)
     LOCAL_SCHEDULER="true"
     shift
   ;;
-  --datasource)
+  --srvd)
     LOCAL_DATASOURCE="true"
     shift
   ;;
-  --reporter)
+  --srvr)
     LOCAL_REPORTER="true"
     shift
   ;;
-  --layout)
+  --srvl)
     LOCAL_LAYOUTENGINE="true"
     shift
   ;;
-  --agent)
+  --srva)
     AGENT_HOST="true"
+    shift
+  ;;
+  --srvo)
+    LOCAL_OAUTH="true"
     shift
   ;;
   *)
