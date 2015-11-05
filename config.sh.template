@@ -3,7 +3,6 @@ REPO_PATH="$HOME/git"
 TECHOPS_FOLDER="demo-ops-console"
 TARGET_ENV="dev"
 CONFIG_PATH="$HOME/nginx.conf"
-HOST_FILE="$HOME/hosts.conf"
 DEFAULT_BRANCH="master"
 ENVS=( qa dev sandpit )
 BRANCH=
