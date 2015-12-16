@@ -8,8 +8,8 @@ showHelp() {
   echo "    [-b --branch] Specifies branch to checkout"
   echo "    [-e --env] Specifices target environment"
   echo "    [-s --same-br] Use current branch"
-  echo "    [--create-br] Create branch if non existant"
-  echo "    [-r] Force restart of the client server"
+  echo "    [--new] Create branch if non existant"
+  echo "    [-r --restart] Force restart of the client server"
   echo "    [--srvc] Use local Central service"
   echo "    [--srvlib] Use local Library service"
   echo "    [--srvs] Use local Scheduler service"
@@ -18,6 +18,7 @@ showHelp() {
   echo "    [--srvl] Use local Layout Engine service"
   echo "    [--srva] Use local Agent service"
   echo "    [--srvo] Use local Oauth service"
+  echo "    [--srvcrm] Use local CRM service"
   echo ""
-  exit
+  exit 0
 }

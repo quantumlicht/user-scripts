@@ -135,11 +135,11 @@ case $key in
     SAME_BRANCH="true"
     shift
   ;;
-  --create-br)
+  --new)
     CREATE_BRANCH="true"
     shift
   ;;
-  -r)
+  -r|--restart)
     RESTART_CLIENT="true"
     shift
   ;;
@@ -175,6 +175,10 @@ case $key in
     LOCAL_OAUTH="true"
     shift
   ;;
+   --srvcrm)
+    LOCAL_CRM="true"
+    shift
+  ;;
   *)
     shift
   ;;
@@ -185,7 +189,6 @@ section "ENVIRONMENT SWITCH"
 generateConfigFromTemplate
 cd ${CHECKOUT_PATH}
 initialBranch=$(getCurrentBranch)
-echo "initialBranch ${initialBranch}"
 
 ########################################################################################
 section "BRANCH CHECKOUT"
@@ -198,6 +201,7 @@ then
   then
     checkoutBranch ${BRANCH}
   else
+    echo "BRANCH NOT FOUND [${BRANCH}]"
     if [ "${CREATE_BRANCH}" == "true" ]
     then
       echo "creating new branch ${BRANCH}"
@@ -241,7 +245,7 @@ then
 else
   if [ "${emberPID}" == "" ]
   then
-    echo "No ember process detected. Launching ember app."
+    echo "NO EMBER PROCESS -- Launching Ember App Server"
     runAsUser "ember s &"
   else
     echo "NORESTART -- BRANCHES (init: ${initialBranch}, current: ${currentBranch})"
