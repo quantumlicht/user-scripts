@@ -6,6 +6,7 @@ CONFIG_PATH="$HOME/nginx.conf"
 DEFAULT_BRANCH="master"
 ENVS=( qa dev sandpit )
 BRANCH=
+PORT="4200"
 initialBranch=$(getCurrentBranch)
 CHECKOUT_PATH="${REPO_PATH}/${TECHOPS_FOLDER}"
 USER="philippeguay"

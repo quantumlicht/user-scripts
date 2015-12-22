@@ -53,6 +53,13 @@ generateConfigFromTemplate () {
     cp "${CONFIG_PATH}.${TARGET_ENV}.template" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
 
     replaceHosts
+    if [ $(isValidPort) == "true" ]
+    then
+      replacePort
+    else
+      echo "INVALIDPORT [${PORT}]"
+      exit 0
+    fi
 
     # Replacing current file by this work file
     echo "COPY ${CONFIG_PATH}.${TARGET_ENV}.tmp -> ${CONFIG_PATH}.${TARGET_ENV}"
@@ -62,11 +69,26 @@ generateConfigFromTemplate () {
 
 }
 
+isValidPort () {
+  re='^[0-9]+$'
+  if ! [[ ${PORT} =~ $re ]] || [[ $"num" -gt 65535 ]] || [[ $"num" -lt 0 ]]
+  then
+   echo "false"
+  else
+    echo "true"
+  fi
+}
 restartServer () {
   configPath=$1
   sudo nginx -s stop
   echo "BOOT NGINX... CONFIG [${configPath}]"
   sudo nginx -c ${configPath}
+}
+
+killServer () {
+  echo "KILLING SERVER"
+  sudo nginx -s stop
+  exit 0
 }
 
 runAsUser () {
@@ -107,6 +129,11 @@ replaceHosts () {
   done
 }
 
+replacePort () {
+  echo "REPLACEPORT %PORT% --> ${PORT}"
+  sed -i '' "s,%PORT%,${PORT},g" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
+}
+
 ########################################################################################
 section "INIT"
 initScript
@@ -119,9 +146,17 @@ case $key in
   -h|--help)
     showHelp
   ;;
+  -p|--port)
+    PORT="$2"
+    shift
+  ;;
   -c|--conf|--config)
     CONFIG_PATH="$2"
     shift
+  ;;
+  -k|--kill)
+    killServer
+    exit 0
   ;;
   -b|--branch)
     BRANCH="$2"
