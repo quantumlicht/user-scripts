@@ -7,55 +7,62 @@ DEFAULT_BRANCH="master"
 ENVS=( qa dev sandpit )
 BRANCH=
 PORT="4200"
-initialBranch=$(getCurrentBranch)
+NGINX_LOGS="$HOME/nginx.log"
+
 CHECKOUT_PATH="${REPO_PATH}/${TECHOPS_FOLDER}"
 USER="philippeguay"
-SERVICES=( SCHEDULER DATASOURCE CENTRAL REPORTER LIBRARY AGENT LAYOUTENGINE )
+SERVICES=( SCHEDULER DATASOURCE CENTRAL REPORTER LIBRARY AGENT LAYOUTENGINE OAUTH CRM)
 
 #SCHEDULER
-DEV_SCHEDULER_HOST=""
-SANDPIT_SCHEDULER_HOST=""
-QA_SCHEDULER_HOST=""
-LOCAL_SCHEDULER_HOST=""
+DEV_SCHEDULER_HOST="https://ops-dev.videri.com/v1/scheduler"
+SANDPIT_SCHEDULER_HOST="https://ops-sandpit.videri.com/scheduler/"
+QA_SCHEDULER_HOST="qa-schedule.videri.com"
+LOCAL_SCHEDULER_HOST="https://localhost:3000/v1"
 
 #DATASOURCE
-DEV_DATASOURCE_HOST=""
-SANDPIT_DATASOURCE_HOST=""
-QA_DATASOURCE_HOST=""
-LOCAL_DATASOURCE_HOST=""
+DEV_DATASOURCE_HOST="https://ops-dev.videri.com/v1/datasource"
+SANDPIT_DATASOURCE_HOST="https://ops-sandpit.videri.com/datasource"
+QA_DATASOURCE_HOST="ops-qa.videri.com/datasource"
+LOCAL_DATASOURCE_HOST="http://localhost:7000/v1"
 
 #CENTRAL
-DEV_CENTRAL_HOST=""
-SANDPIT_CENTRAL_HOST=""
-QA_CENTRAL_HOST=""
-LOCAL_CENTRAL_HOST=""
+DEV_CENTRAL_HOST="ops-dev.videri.com/central"
+SANDPIT_CENTRAL_HOST="https://ops-sandpit.videri.com/central/"
+QA_CENTRAL_HOST="ops-qa.videri.com/central"
+LOCAL_CENTRAL_HOST="http://localhost:9292/v1/"
 
 #REPORTER
-DEV_REPORTER_HOST=""
-SANDPIT_REPORTER_HOST=""
-QA_REPORTER_HOST=""
-LOCAL_REPORTER_HOST=""
+DEV_REPORTER_HOST="https://reporter-dev.videri.com"
+SANDPIT_REPORTER_HOST="https://ops-sandpit.videri.com/reporter"
+QA_REPORTER_HOST="ops-qa.videri.com/reporter"
+LOCAL_REPORTER_HOST="http://localhost:8888"
 
 #LIBRARY
-DEV_LIBRARY_HOST=""
-SANDPIT_LIBRARY_HOST=""
-QA_LIBRARY_HOST=""
-LOCAL_LIBRARY_HOST=""
+DEV_LIBRARY_HOST="https://library-dev.videri.com/v2"
+SANDPIT_LIBRARY_HOST="https://ops-sandpit.videri.com/library"
+QA_LIBRARY_HOST="ops-qa.videri.com/library"
+LOCAL_LIBRARY_HOST="http://ops.localhost.videri.com:3000/v1"
 
 #AGENT
-DEV_AGENT_HOST=""
-SANDPIT_AGENT_HOST=""
-QA_AGENT_HOST=""
-LOCAL_AGENT_HOST=""
+DEV_AGENT_HOST="agent-dev.videri.com"
+SANDPIT_AGENT_HOST="https://ops-sandpit.videri.com/agent"
+QA_AGENT_HOST="ops-qa.videri.com/agent"
+LOCAL_AGENT_HOST="http://ops.localhost.videri.com:3000/v1"
 
 #LAYOUTENGINE
-DEV_LAYOUTENGINE_HOST=""
-SANDPIT_LAYOUTENGINE_HOST=""
-QA_LAYOUTENGINE_HOST=""
-LOCAL_LAYOUTENGINE_HOST=""
+DEV_LAYOUTENGINE_HOST="https://layout-dev.videri.com/"
+SANDPIT_LAYOUTENGINE_HOST="https://ops-sandpit.videri.com/layoutengine"
+QA_LAYOUTENGINE_HOST="ops-qa.videri.com/layoutengine"
+LOCAL_LAYOUTENGINE_HOST="http://localhost:9000/"
 
 #OAUTH
-DEV_OAUTH_HOST=""
-SANDPIT_OAUTH_HOST=""
-QA_OAUTH_HOST=""
-LOCAL_OAUTH_HOST=""
+DEV_OAUTH_HOST="layout-dev.videri.com"
+SANDPIT_OAUTH_HOST="https://ops-sandpit.videri.com/oauth"
+QA_OAUTH_HOST="ops-qa.videri.com/OAUTH"
+LOCAL_OAUTH_HOST="http://localhost:9292/oauth/"
+
+#CRM
+DEV_CRM_HOST="https://crm-dev.videri.com/v1"
+SANDPIT_CRM_HOST="https://crm-sandpit.videri.com"
+QA_CRM_HOST="cr-qa.videri.com/CRM"
+LOCAL_CRM_HOST="http://localhost:4000/v1"

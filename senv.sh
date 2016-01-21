@@ -15,6 +15,8 @@ section () {
 }
 
 initScript () {
+  echo "Creating /var/log/nginx"
+  mkdir /var/log/nginx
   cd $HOME
   if [ ! -f "$HOME/config.sh" ]
   then
@@ -138,7 +140,6 @@ replacePort () {
 section "INIT"
 initScript
 
-#TODO: parse ":"-delimited string to represent services to run locally
 while [[ $# > 0 ]]
 do
 key="$1"
