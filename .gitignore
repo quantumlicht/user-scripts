@@ -2,3 +2,4 @@
 config.sh
 *.iml
 .idea/*
+.DS_STORE

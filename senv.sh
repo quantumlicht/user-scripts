@@ -63,12 +63,30 @@ generateConfigFromTemplate () {
       exit 0
     fi
 
+    if [ $(isValidSSL) == "true" ]
+    then
+      replaceSSL
+    else
+        echo "INVALID SSL [${SSL_CRT_PATH} ${SSL_KEY_PATH}]"
+        exit 0
+    fi
+
     # Replacing current file by this work file
     echo "COPY ${CONFIG_PATH}.${TARGET_ENV}.tmp -> ${CONFIG_PATH}.${TARGET_ENV}"
     cp "${CONFIG_PATH}.${TARGET_ENV}.tmp" "${CONFIG_PATH}.${TARGET_ENV}"
 
   fi
 
+}
+
+isValidSSL () {
+ #if [[ ! -f "${SSL_CRT_PATH}" ]] || [[ ! -f "${SSL_KEY_PATH}" ]]
+ #then
+ #  echo "false"
+ #else
+ #   echo "true"
+ #fi
+ echo "true"
 }
 
 isValidPort () {
@@ -111,15 +129,14 @@ getCurrentBranch () {
 replaceHosts () {
 
   # Check if its the local flag has been set for this host. Override TARGET_ENV to LOCAL if yes
-  # Will also need to uppercase TARGET_ENVS
   upperEnv=`echo "${TARGET_ENV}" | awk '{print toupper($0)}'`
   echo "REPLACEHOST FILE [${CONFIG_PATH}.${TARGET_ENV}.tmp]"
   for hostname in "${SERVICES[@]}"
   do
-    localhost="LOCAL_$hostname"
+    should_run_local="LOCAL_$hostname"
     localhost_host="LOCAL_${hostname}_HOST"
     env_host="${upperEnv}_${hostname}_HOST"
-    if [ "${!localhost}" == "true" ]
+    if [ "${!should_run_local}" == "true" ]
     # Using commas for delimiters so that we don't have to escape hosts that use slashes
     then
       echo "REPLACEHOST %${hostname}_HOST% --> ${!localhost_host}"
@@ -134,6 +151,13 @@ replaceHosts () {
 replacePort () {
   echo "REPLACEPORT %PORT% --> ${PORT}"
   sed -i '' "s,%PORT%,${PORT},g" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
+}
+
+replaceSSL() {
+  echo "REPLACESSL %SSL_KEY_PATH% --> ${SSL_KEY_PATH}"
+  echo "REPLACESSL %SSL_CRT_PATH% --> ${SSL_CRT_PATH}"
+  sed -i '' "s,%SSL_CRT_PATH%,${SSL_CRT_PATH},g" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
+  sed -i '' "s,%SSL_KEY_PATH%,${SSL_KEY_PATH},g" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
 }
 
 ########################################################################################
