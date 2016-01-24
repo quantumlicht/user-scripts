@@ -1,9 +1,4 @@
-filezilla
-iterm2
-robomongo
-skype
-spotify
-sublime-text3
+android-platform-tools
 autoconf
 automake
 git
@@ -11,7 +6,6 @@ libgpg-error
 libksba
 libtool
 libyaml
-mongodb
 nginx
 node
 nvm
@@ -19,3 +13,11 @@ openssl
 pcre
 pkg-config
 readline
+dropbox
+evernote
+filezilla
+iterm2
+robomongo
+skype
+spotify
+sublime-text3

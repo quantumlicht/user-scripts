@@ -146,6 +146,10 @@ replaceHosts () {
       sed -i '' "s,%${hostname}_HOST%,${!env_host},g" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
     fi
   done
+
+  echo "REPLACEHOST %HOSTNAME% --> ${HOSTNAME}"
+  sed -i '' "s,%HOSTNAME%,${HOSTNAME},g" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
+
 }
 
 replacePort () {
@@ -159,6 +163,7 @@ replaceSSL() {
   sed -i '' "s,%SSL_CRT_PATH%,${SSL_CRT_PATH},g" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
   sed -i '' "s,%SSL_KEY_PATH%,${SSL_KEY_PATH},g" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
 }
+
 
 ########################################################################################
 section "INIT"
