@@ -15,6 +15,8 @@ section () {
 }
 
 initScript () {
+  echo "Creating /var/log/nginx"
+  mkdir /var/log/nginx
   cd $HOME
   if [ ! -f "$HOME/config.sh" ]
   then
@@ -53,6 +55,21 @@ generateConfigFromTemplate () {
     cp "${CONFIG_PATH}.${TARGET_ENV}.template" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
 
     replaceHosts
+    if [ $(isValidPort) == "true" ]
+    then
+      replacePort
+    else
+      echo "INVALIDPORT [${PORT}]"
+      exit 0
+    fi
+
+    if [ $(isValidSSL) == "true" ]
+    then
+      replaceSSL
+    else
+        echo "INVALID SSL [${SSL_CRT_PATH} ${SSL_KEY_PATH}]"
+        exit 0
+    fi
 
     # Replacing current file by this work file
     echo "COPY ${CONFIG_PATH}.${TARGET_ENV}.tmp -> ${CONFIG_PATH}.${TARGET_ENV}"
@@ -62,11 +79,36 @@ generateConfigFromTemplate () {
 
 }
 
+isValidSSL () {
+ #if [[ ! -f "${SSL_CRT_PATH}" ]] || [[ ! -f "${SSL_KEY_PATH}" ]]
+ #then
+ #  echo "false"
+ #else
+ #   echo "true"
+ #fi
+ echo "true"
+}
+
+isValidPort () {
+  re='^[0-9]+$'
+  if ! [[ ${PORT} =~ $re ]] || [[ $"num" -gt 65535 ]] || [[ $"num" -lt 0 ]]
+  then
+   echo "false"
+  else
+    echo "true"
+  fi
+}
 restartServer () {
   configPath=$1
   sudo nginx -s stop
   echo "BOOT NGINX... CONFIG [${configPath}]"
   sudo nginx -c ${configPath}
+}
+
+killServer () {
+  echo "KILLING SERVER"
+  sudo nginx -s stop
+  exit 0
 }
 
 runAsUser () {
@@ -87,15 +129,14 @@ getCurrentBranch () {
 replaceHosts () {
 
   # Check if its the local flag has been set for this host. Override TARGET_ENV to LOCAL if yes
-  # Will also need to uppercase TARGET_ENVS
   upperEnv=`echo "${TARGET_ENV}" | awk '{print toupper($0)}'`
   echo "REPLACEHOST FILE [${CONFIG_PATH}.${TARGET_ENV}.tmp]"
   for hostname in "${SERVICES[@]}"
   do
-    localhost="LOCAL_$hostname"
+    should_run_local="LOCAL_$hostname"
     localhost_host="LOCAL_${hostname}_HOST"
     env_host="${upperEnv}_${hostname}_HOST"
-    if [ "${!localhost}" == "true" ]
+    if [ "${!should_run_local}" == "true" ]
     # Using commas for delimiters so that we don't have to escape hosts that use slashes
     then
       echo "REPLACEHOST %${hostname}_HOST% --> ${!localhost_host}"
@@ -105,13 +146,29 @@ replaceHosts () {
       sed -i '' "s,%${hostname}_HOST%,${!env_host},g" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
     fi
   done
+
+  echo "REPLACEHOST %HOSTNAME% --> ${HOSTNAME}"
+  sed -i '' "s,%HOSTNAME%,${HOSTNAME},g" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
+
 }
+
+replacePort () {
+  echo "REPLACEPORT %PORT% --> ${PORT}"
+  sed -i '' "s,%PORT%,${PORT},g" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
+}
+
+replaceSSL() {
+  echo "REPLACESSL %SSL_KEY_PATH% --> ${SSL_KEY_PATH}"
+  echo "REPLACESSL %SSL_CRT_PATH% --> ${SSL_CRT_PATH}"
+  sed -i '' "s,%SSL_CRT_PATH%,${SSL_CRT_PATH},g" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
+  sed -i '' "s,%SSL_KEY_PATH%,${SSL_KEY_PATH},g" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
+}
+
 
 ########################################################################################
 section "INIT"
 initScript
 
-#TODO: parse ":"-delimited string to represent services to run locally
 while [[ $# > 0 ]]
 do
 key="$1"
@@ -119,9 +176,17 @@ case $key in
   -h|--help)
     showHelp
   ;;
+  -p|--port)
+    PORT="$2"
+    shift
+  ;;
   -c|--conf|--config)
     CONFIG_PATH="$2"
     shift
+  ;;
+  -k|--kill)
+    killServer
+    exit 0
   ;;
   -b|--branch)
     BRANCH="$2"
@@ -135,11 +200,11 @@ case $key in
     SAME_BRANCH="true"
     shift
   ;;
-  --create-br)
+  --new)
     CREATE_BRANCH="true"
     shift
   ;;
-  -r)
+  -r|--restart)
     RESTART_CLIENT="true"
     shift
   ;;
@@ -175,6 +240,10 @@ case $key in
     LOCAL_OAUTH="true"
     shift
   ;;
+   --srvcrm)
+    LOCAL_CRM="true"
+    shift
+  ;;
   *)
     shift
   ;;
@@ -185,7 +254,6 @@ section "ENVIRONMENT SWITCH"
 generateConfigFromTemplate
 cd ${CHECKOUT_PATH}
 initialBranch=$(getCurrentBranch)
-echo "initialBranch ${initialBranch}"
 
 ########################################################################################
 section "BRANCH CHECKOUT"
@@ -198,6 +266,7 @@ then
   then
     checkoutBranch ${BRANCH}
   else
+    echo "BRANCH NOT FOUND [${BRANCH}]"
     if [ "${CREATE_BRANCH}" == "true" ]
     then
       echo "creating new branch ${BRANCH}"
@@ -241,7 +310,7 @@ then
 else
   if [ "${emberPID}" == "" ]
   then
-    echo "No ember process detected. Launching ember app."
+    echo "NO EMBER PROCESS -- Launching Ember App Server"
     runAsUser "ember s &"
   else
     echo "NORESTART -- BRANCHES (init: ${initialBranch}, current: ${currentBranch})"
