@@ -310,9 +310,9 @@ then
     echo "KILL EMBER PROC [${emberPID}]"
     kill -9 ${emberPID}
   fi
-  if ["$INSTALL_DEPS" == "true" ]
-    runAsUser "npm install && bower install"
+  if [ "$INSTALL_DEPS" == "true" ]
   then
+    runAsUser "npm install && bower install"
   fi
   runAsUser "cd ${REPO_PATH}/${TECHOPS_FOLDER}"
   runAsUser "ember s &"
