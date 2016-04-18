@@ -1,8 +1,4 @@
 #!/bin/bash
-###
-# Configure this file to your needs. This is what will be loaded
-###
-
 REPO_PATH=
 TECHOPS_FOLDER=
 TARGET_ENV=
@@ -10,14 +6,13 @@ CONFIG_PATH=
 DEFAULT_BRANCH=
 ENVS=
 BRANCH
-PORT=
 NGINX_LOGS=
-SSL_CRT_PATH=
-SSL_KEY_PATH=
-HOSTNAME=
-
+PORT=
 CHECKOUT_PATH=
+SSL_KEY_PATH=
+SSL_CRT_PATH=
 USER=
+HOSTNAME=
 SERVICES=
 
 #SCHEDULER
