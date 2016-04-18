@@ -1,5 +1,6 @@
 export PATH="/Users/philippeguay/Downloads/android-sdk-macosx/:$PATH"
-HISTFILESIZE=2500
+export PATH="/usr/local/etc/mongodb/bin:$PATH"
+HISTFILESIZE=100000
 export NVM_DIR="/Users/philippeguay/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 

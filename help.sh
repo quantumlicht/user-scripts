@@ -12,6 +12,7 @@ showHelp() {
   echo "    [-s --same-br] Use current branch"
   echo "    [--new] Create branch if non existant"
   echo "    [-r --restart] Force restart of the client server"
+  echo "    [-i --install-deps] Reinstall client dependencies (npm & bower)"
   echo "    [--srvc] Use local Central service"
   echo "    [--srvlib] Use local Library service"
   echo "    [--srvs] Use local Scheduler service"

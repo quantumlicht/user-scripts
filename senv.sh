@@ -208,6 +208,12 @@ case $key in
     RESTART_CLIENT="true"
     shift
   ;;
+
+  -i|--install-deps)
+    INSTALL_DEPS="true"
+    shift
+  ;;
+
   --srvc)
     LOCAL_CENTRAL="true"
     shift
@@ -304,7 +310,10 @@ then
     echo "KILL EMBER PROC [${emberPID}]"
     kill -9 ${emberPID}
   fi
-  runAsUser "npm install && bower install"
+  if ["$INSTALL_DEPS" == "true" ]
+    runAsUser "npm install && bower install"
+  then
+  fi
   runAsUser "cd ${REPO_PATH}/${TECHOPS_FOLDER}"
   runAsUser "ember s &"
 else
