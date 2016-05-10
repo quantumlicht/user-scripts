@@ -14,6 +14,14 @@ section () {
   echo ""
 }
 
+
+checkRoot() {
+  if [ `id|sed -e s/uid=//g -e s/\(.*//g` -ne 0 ]; then
+      echo "This script requires root privileges"
+      exit 1
+  fi
+}
+
 initScript () {
   echo "Creating /var/log/nginx"
   mkdir /var/log/nginx
@@ -167,6 +175,7 @@ replaceSSL() {
 
 ########################################################################################
 section "INIT"
+checkRoot
 initScript
 
 while [[ $# > 0 ]]

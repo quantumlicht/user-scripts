@@ -14,3 +14,9 @@ export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
 
 alias grep='grep --color=auto'
 alias ll='ls -lart'
+
+gitclean() {
+  echo "erasing pattern: $1*"
+  git for-each-ref --format="%(refname:short)" refs/heads/$1* | xargs git branch -D
+}
+alias cleangit="gitclean"

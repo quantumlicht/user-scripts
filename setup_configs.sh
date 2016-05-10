@@ -24,13 +24,15 @@ chmod 777 $HOME/user-scripts/dnet
 chown root $HOME/user-scripts/dnet
 sudo cp $HOME/user-scripts/dnet /usr/local/bin/dnet
 
-echo ""
-echo "Copying $HOME/user-scripts/nginx.conf.dev.template to '$HOME/nginx.conf.dev.template'"
-sudo cp $HOME/user-scripts/nginx.conf.dev.template $HOME/nginx.conf.dev.template
+#echo ""
+#echo "Copying $HOME/user-scripts/nginx.conf.dev.template to '$HOME/nginx.conf.dev.template'"
+#sudo cp $HOME/user-scripts/nginx.conf.dev.template $HOME/nginx.conf.dev.template
 
-echo ""
-echo "Copying $HOME/user-scripts/nginx.conf.sandpit.template -> '$HOME/nginx.conf.sandpit.template'"
-sudo cp $HOME/user-scripts/nginx.conf.sandpit.template $HOME/nginx.conf.sandpit.template
+#echo ""
+#echo "Copying $HOME/user-scripts/nginx.conf.sandpit.template -> '$HOME/nginx.conf.sandpit.template'"
+#sudo cp $HOME/user-scripts/nginx.conf.sandpit.template $HOME/nginx.conf.sandpit.template
+echo "Copying nginx templates '$HOME/user-scripts/nginx.conf.*' to $HOME"
+sudo cp $HOME/user-scripts/nginx.conf.* $HOME/
 
 echo ""
 echo "Copying $HOME/user-scripts/.gitconfig -> $HOME/.gitconfig"
