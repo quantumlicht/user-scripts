@@ -66,11 +66,6 @@ echo ""
 echo "changing root access timeout in /etc/sudoers"
 echo "use the visudo command and enter the following Defaults:philippeguay timestamp_timeout=-1"
 
-
-echo ""
-echo "exporting SSL key"
-export SSL_KEY=/Users/philippeguay/git/demo-ops-console/ssl/server.key
-echo "exporting SSL Cert"
-export SSL_CERT=/Users/philippeguay/git/demo-ops-console/ssl/server.crt
+./export_ssl.sh
 #echo "installing brew deps"
 #sudo cat brew_deps.txt | xargs brew install

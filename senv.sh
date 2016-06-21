@@ -177,7 +177,6 @@ replaceSSL() {
 section "INIT"
 checkRoot
 initScript
-
 while [[ $# > 0 ]]
 do
 key="$1"
