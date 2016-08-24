@@ -1,0 +1,131 @@
+worker_processes  1;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    default_type  application/octet-stream;
+
+    sendfile        on;
+    keepalive_timeout  65;
+
+    client_max_body_size 16G;
+
+    server {
+        listen       8080;
+        server_name  ops.localhost.videri.com;
+        location / {
+           proxy_buffering off;
+           proxy_pass http://ops.localhost.videri.com:4200;
+        }
+
+
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+
+    server {
+        listen       443 ssl;
+        server_name  ops.localhost.videri.com;
+        error_log   /var/log/nginx/ops.localhost.videri.com.log debug;
+        access_log  /var/log/nginx/ops.localhost.videri.com.access.log;
+        ssl_certificate      %SSL_CRT_PATH%;
+        ssl_certificate_key  %SSL_KEY_PATH%;
+
+        ssl_session_cache    shared:SSL:1m;
+        ssl_session_timeout  5m;
+
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers  on;
+
+        location / {
+           proxy_buffering off;
+           proxy_pass https://ops.localhost.videri.com:4200;
+        }
+
+        # location /agent/socket {
+        #     proxy_pass https://agent-sandpit.videri.com/socket;
+        #     proxy_http_version 1.1;
+        #     proxy_set_header Upgrade $http_upgrade;
+        #     proxy_set_header Connection "upgrade";
+        # }
+
+        location /v1/agent/socket {
+            proxy_pass %AGENT_HOST%/socket;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+        }
+
+        location /write-blanket-coverage {
+               return 200 'yo';
+        }
+
+        location /oauth/ {
+          #proxy_pass https://ops-sandpit.videri.com/oauth/;
+          proxy_pass %OAUTH_HOST%;
+        }
+
+        location /crm/ {
+
+          # Dev / QA
+          # proxy_pass https://crm-sandpit.videri.com/v1;
+
+          # Sandpit
+          proxy_pass https://ops-sandpit.videri.com/;
+
+          # Local
+          # proxy_pass http://localhost:3000/;
+
+           #proxy_pass https://ops.localhost.videri.com:3000/;
+        }
+
+        location /central/ {
+          proxy_pass %CENTRAL_HOST%;
+        }
+
+        #location /agent/ {
+        # proxy_pass %AGENT_HOST%;
+        #}
+
+        location /datasource/ {
+          proxy_pass %DATASOURCE_HOST%;
+        }
+
+        location /reporter/enums/ {
+          proxy_pass %REPORTER_HOST%/enums;
+        }
+
+        location /reporter/ {
+          proxy_pass %REPORTER_HOST%;
+        }
+
+        location /scheduler/ {
+           proxy_pass %SCHEDULER_HOST%;
+        }
+
+        # /versions
+        location /versions/agent/ {
+          proxy_pass https://ops-sandpit.videri.com/versions/agent;
+        }
+        location /versions/library/ {
+           proxy_pass https://ops-sandpit.videri.com/versions/central;
+        }
+        location /versions/crm/ {
+          proxy_pass https://ops-sandpit.videri.com/versions/central;
+          #proxy_pass https://ops.localhost.videri.com:3000/;
+        }
+        location /versions/scheduler/ {
+          proxy_pass https://ops-sandpit.videri.com/versions/scheduler;
+        }
+
+        location /layout-engine/ {
+            proxy_pass %LAYOUTENGINE_HOST%;
+        }
+
+    }
+
+}

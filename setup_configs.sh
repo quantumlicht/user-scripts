@@ -35,8 +35,8 @@ echo "Copying nginx templates '$HOME/user-scripts/nginx.conf.*' to $HOME"
 sudo cp $HOME/user-scripts/nginx.conf.* $HOME/
 
 echo ""
-echo "Copying $HOME/user-scripts/.gitconfig -> $HOME/.gitconfig"
-sudo cp $HOME/user-scripts/.gitconfig $HOME/.gitconfig
+echo "Copying $HOME/user-scripts/.gitconfig_global -> $HOME/.gitconfig_global"
+sudo cp $HOME/user-scripts/.gitconfig_global $HOME/.gitconfig_global
 
 echo ""
 echo "Copying $HOME/user-scripts/.gitconfig -> $HOME/.gitconfig"

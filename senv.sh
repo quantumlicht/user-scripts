@@ -47,54 +47,60 @@ generateConfigFromTemplate () {
   # We validate that a template file is present
   if [ ! -f "${CONFIG_PATH}.${TARGET_ENV}.template" ]
   then
-    echo "ERR -- Environment Specific file not found. If you want to have custom hosts you should specify a template config for your environment"
-    exit 0
-  else
-    echo "HOST REPLACE FILE [${CONFIG_PATH}.${TARGET_ENV}.template]"
-    # Cleaning up existing temp file
-    if [ -f "${CONFIG_PATH}.${TARGET_ENV}.tmp" ]
-    then
-      echo "CLEANUP -> rm ${CONFIG_PATH}.${TARGET_ENV}.tmp"
-      rm "${CONFIG_PATH}.${TARGET_ENV}.tmp"
-    fi
-
-    # Generating temp work file
-    echo "TMP FILE -> ${CONFIG_PATH}.${TARGET_ENV}.tmp"
-    cp "${CONFIG_PATH}.${TARGET_ENV}.template" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
-
-    replaceHosts
-    if [ $(isValidPort) == "true" ]
-    then
-      replacePort
-    else
-      echo "INVALIDPORT [${PORT}]"
-      exit 0
-    fi
-
-    if [ $(isValidSSL) == "true" ]
-    then
-      replaceSSL
-    else
-        echo "INVALID SSL [${SSL_CRT_PATH} ${SSL_KEY_PATH}]"
-        exit 0
-    fi
-
-    # Replacing current file by this work file
-    echo "COPY ${CONFIG_PATH}.${TARGET_ENV}.tmp -> ${CONFIG_PATH}.${TARGET_ENV}"
-    cp "${CONFIG_PATH}.${TARGET_ENV}.tmp" "${CONFIG_PATH}.${TARGET_ENV}"
-
+    echo $'ENV TPL NOT FOUND -> For custom hosts create: nginx.conf.<env>.template'
+    ENV_TEMPLATE=${DEFAULT_ENV_TEMPLATE}
   fi
+
+  echo "ENV TEMPLATE [${ENV_TEMPLATE}]"
+  # Cleaning up existing env temp file
+  if [ -f "${CONFIG_PATH}.${TARGET_ENV}.tmp" ]
+  then
+    echo "CLEANUP -> rm ${CONFIG_PATH}.${TARGET_ENV}.tmp"
+    rm "${CONFIG_PATH}.${TARGET_ENV}.tmp"
+  fi
+
+  #Cleaning tmp default template
+  if [ -f "${CONFIG_PATH}.${ENV_TEMPLATE}.tmp" ]
+  then
+    echo "CLEANUP -> rm ${CONFIG_PATH}.${ENV_TEMPLATE}.tmp"
+    rm "${CONFIG_PATH}.${ENV_TEMPLATE}.tmp"
+  fi
+
+  # Generating temp work file
+  echo "TMP FILE -> ${CONFIG_PATH}.${TARGET_ENV}.tmp"
+  cp "${CONFIG_PATH}.${ENV_TEMPLATE}.template" "${CONFIG_PATH}.${TARGET_ENV}.tmp"
+
+  replaceHosts
+  if [ $(isValidPort) == "true" ]
+  then
+    replacePort
+  else
+    echo "INVALIDPORT [${PORT}]"
+    exit 0
+  fi
+
+  if [ $(isValidSSL) == "true" ]
+  then
+    replaceSSL
+  else
+      echo "INVALID SSL [${SSL_CRT_PATH} ${SSL_KEY_PATH}]"
+      exit 0
+  fi
+
+  # Replacing current file by this work file
+  echo "COPY ${CONFIG_PATH}.${TARGET_ENV}.tmp -> ${CONFIG_PATH}.${TARGET_ENV}"
+  cp "${CONFIG_PATH}.${TARGET_ENV}.tmp" "${CONFIG_PATH}.${TARGET_ENV}"
 
 }
 
 isValidSSL () {
- #if [[ ! -f "${SSL_CRT_PATH}" ]] || [[ ! -f "${SSL_KEY_PATH}" ]]
- #then
- #  echo "false"
- #else
- #   echo "true"
- #fi
- echo "true"
+ if [[ ! -f "${SSL_CRT_PATH}" ]] || [[ ! -f "${SSL_KEY_PATH}" ]]
+ then
+   echo "false"
+ else
+    echo "true"
+ fi
+# echo "true"
 }
 
 isValidPort () {
@@ -202,6 +208,7 @@ case $key in
   ;;
   -e|--env)
     TARGET_ENV="$2"
+    ENV_TEMPLATE="$2"
     shift
   ;;
   -s|--same-br)
