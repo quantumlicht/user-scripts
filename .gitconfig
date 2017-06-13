@@ -2,7 +2,7 @@
 	helper = osxkeychain
 [user]
 	name = Philippe Guay
-	email = Philippe.Guay@videri.com
+	email = pguay@elementai.com
 [push]
 	default = simple
 [alias]
