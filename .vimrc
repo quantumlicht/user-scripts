@@ -1,7 +1,12 @@
-set t_Co=256
+call plug#begin('~/.vim/plugged')
+Plug 'rakr/vim-one'
+Plug 'altercation/vim-colors-solarized'
+call plug#end()
+
+" let g:airline_theme='one'
 syntax enable
-let g:rehash256=1
-let g:molokai_original=1
-colorscheme molokai
+let g:solarized_termcolors=256
+colorscheme solarized
+set background=light
 set nu
 set cursorline
