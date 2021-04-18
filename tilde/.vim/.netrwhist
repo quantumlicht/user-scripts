@@ -1,2 +1,12 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =0
+let g:netrw_dirhistcnt =3
+let g:netrw_dirhist_3='/home/philippe/.oh-my-zsh/custom'
+let g:netrw_dirhist_2='/home/philippe/.oh-my-zsh'
+let g:netrw_dirhist_1='/home/philippe/.oh-my-zsh/custom'
+let g:netrw_dirhist_0='/home/philippe/.oh-my-zsh'
+let g:netrw_dirhist_9='/home/philippe/.oh-my-zsh/custom'
+let g:netrw_dirhist_8='/home/philippe/.oh-my-zsh'
+let g:netrw_dirhist_7='/home/philippe/.hasura/plugins/index/plugins/cli-ext'
+let g:netrw_dirhist_6='/home/philippe/.hasura/plugins/index/plugins/cli-ext/v1.3.2'
+let g:netrw_dirhist_5='/home/philippe/.hasura/plugins/index/plugins/cli-ext'
+let g:netrw_dirhist_4='/home/philippe/.oh-my-zsh/custom'

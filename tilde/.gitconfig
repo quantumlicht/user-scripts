@@ -1,26 +1,5 @@
-[credential]
-	helper = osxkeychain
 [user]
+	email = phil@pempem.org
 	name = Philippe Guay
-	email = pguay@elementai.com
-[push]
-	default = simple
-[alias]
-	br = branch
-	stat = status
-	co = checkout
-	st = status
-  find-merge = "!sh -c 'commit=$0 && branch=${1:-HEAD} && (git rev-list $commit..$branch --ancestry-path | cat -n; git rev-list $commit..$branch --first-parent | cat -n) | sort -k2 | uniq -f1 -d | sort -n | tail -1 | cut -f2'"
-  show-merge = "!sh -c 'merge=$(git find-merge $0 $1) && [ -n \"$merge\" ] && git show $merge'"
-  hist = "log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short"
-  clean-vr-branch= "for-each-ref --format=\"%(refname:short)\" refs/heads/VR-* | xargs branch -D"
 [core]
-	excludesfile = /Users/philippeguay/.gitignore_global
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-[color]
-	ui = auto
+	editor = vim

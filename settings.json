@@ -1,186 +1,201 @@
 {
-  "autoDocstring.docstringFormat": "sphinx",
-  "debug.allowBreakpointsEverywhere": true,
-  "debug.inlineValues": true,
-  "debug.toolBarLocation": "docked",
-  "docker.languageserver.diagnostics.instructionWorkdirRelative": "error",
-  "editor.codeActionsOnSave": {
-    "source.organizeImports": false
-  },
-  "editor.fontFamily": "FiraCode-Retina",
-  "editor.fontLigatures": true,
-  "editor.formatOnPaste": true,
-  "editor.formatOnSave": false,
-  "editor.minimap.enabled": false,
-  "editor.renderWhitespace": "none",
-  "editor.rulers": [
-    88,
-    100
-  ],
-  "editor.wordWrap": "off",
-  "editor.wordWrapColumn": 88,
-  "editor.suggestSelection": "first",
-  "files.autoSave": "onWindowChange",
-  "files.autoSaveDelay": 1000,
-  "files.insertFinalNewline": true,
-  "files.trimTrailingWhitespace": true,
-  "gitlens.views.repositories.files.layout": "tree",
-  "markdown.extension.toc.githubCompatibility": true,
-  "markdown.extension.toc.updateOnSave": true,
-  "material-icon-theme.folders.theme": "specific",
-  "materialTheme.accent": "Orange",
-  "psi-header.changes-tracking": {
-    "autoHeader": "autoSave",
-    "exclude": [
-      "markdown",
-      "json"
+    "autoDocstring.docstringFormat": "sphinx",
+    "debug.allowBreakpointsEverywhere": true,
+    "debug.inlineValues": true,
+    "debug.toolBarLocation": "docked",
+    "docker.languageserver.diagnostics.instructionWorkdirRelative": "error",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": false
+    },
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": false,
+    "editor.insertSpaces": true,
+    "editor.minimap.enabled": false,
+    "editor.renderWhitespace": "none",
+    "editor.tabSize": 2,
+    "editor.rulers": [
+      88,
+      100
     ],
-    "excludeGlob": [
-      "out/**",
-      "src/**/*.xyz"
+    "editor.wordWrap": "off",
+    "editor.wordWrapColumn": 88,
+    "editor.suggestSelection": "first",
+    "files.autoSave": "onWindowChange",
+    "files.autoSaveDelay": 1000,
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "gitlens.views.repositories.files.layout": "tree",
+    "markdown.extension.toc.githubCompatibility": true,
+    "markdown.extension.toc.updateOnSave": true,
+    "material-icon-theme.folders.theme": "specific",
+    "materialTheme.accent": "Orange",
+    "psi-header.changes-tracking": {
+      "autoHeader": "autoSave",
+      "enforceHeader": true,
+      "exclude": [
+        "md",
+        "markdown",
+        "json"
+      ],
+      "excludeGlob": [
+        "out/**",
+        "src/**/*.xyz"
+      ],
+      "include": [
+        "python",
+        "javascript"
+      ],
+    },
+    "psi-header.config": {
+      "blankLinesAfter": 1,
+      "forceToTop": true,
+      "license": "Custom"
+    },
+    "psi-header.lang-config": [
+      {
+        "beforeHeader": [],
+        "begin": "",
+        "blankLinesAfter": 0,
+        "end": "",
+        "language": "python",
+        "prefix": "# ",
+        "rootDirFileName": "pyproject.toml"
+      },
+     {
+      "language": "javascript",
+      "begin": "/**",
+      "prefix": " * ",
+      "end": " */",
+      "blankLinesAfter": 1,
+      "forceToTop": true,
+    },
     ],
-    "include": [
-      "python"
+    "psi-header.license-text": [
+      "All rights reserved."
     ],
-  },
-  "psi-header.config": {
-    "blankLinesAfter": 6,
-    "forceToTop": true,
-    "license": "Custom"
-  },
-  "psi-header.lang-config": [
-    {
-      "beforeHeader": [],
-      "begin": "",
-      "blankLinesAfter": 0,
-      "end": "",
-      "language": "python",
-      "prefix": "# ",
-      "rootDirFileName": "pyproject.toml"
-    }
-  ],
-  "psi-header.license-text": [
-    "All rights reserved."
-  ],
-  "psi-header.templates": [
-    {
-      "language": "*",
-      "template": [
-        "<<filerelativepath>>",
-        "<<author>>, <<filecreated('YYYY-MM-DD')>>",
-        "Copyright (c) <<year>> <<company>> All rights reserved.",
+    "psi-header.templates": [
+      {
+        "language": "*",
+        "template": [
+          "Copyright <<year>> <<company>>",
+          "Author: <<author>>"
+          // "<<filerelativepath>>",
+          // "<<author>>, <<filecreated('YYYY-MM-DD')>>",
+          // "Copyright (c) <<year>> <<company>>",
+        ]
+      }
+    ],
+    "psi-header.variables": [
+      [
+        "company",
+        "Pempem Inc."
+      ],
+      [
+        "author",
+        "Philippe Guay"
+      ],
+      [
+        "authoremail",
+        "phil@pempem.org"
       ]
-    }
-  ],
-  "psi-header.variables": [
-    [
-      "company",
-      "Element AI Inc."
     ],
-    [
-      "author",
-      "Philippe Guay"
+    "python.autoComplete.addBrackets": true,
+    // "python.formatting.blackArgs": [
+    //   "--line-length",
+    //   "100"
+    // ],
+    "python.formatting.provider": "black",
+    "python.jediEnabled": false,
+    "python.linting.flake8Args": [
+      "--max-line-length=88"
     ],
-    [
-      "authoremail",
-      "pguay@elementai.com"
-    ]
-  ],
-  "python.autoComplete.addBrackets": true,
-  // "python.formatting.blackArgs": [
-  //   "--line-length",
-  //   "100"
-  // ],
-  "python.formatting.provider": "black",
-  "python.jediEnabled": false,
-  "python.linting.flake8Args": [
-    "--max-line-length=88"
-  ],
-  "python.linting.flake8Enabled": false,
-  "python.linting.lintOnSave": true,
-  "python.linting.mypyEnabled": true,
-  "python.linting.pycodestyleEnabled": true,
-  "python.linting.pycodestyleArgs": [
-    "--max-line-length=88"
-  ],
-  "python.linting.prospectorArgs": [
-    "-s",
-    "veryhigh"
-  ],
-  "python.linting.pydocstyleArgs": [
-    "--convention=numpy",
-    "--ignore=D102"
-  ],
-  "python.linting.pylamaEnabled": true,
-  "python.linting.pydocstyleEnabled": true,
-  "python.linting.pylintEnabled": true,
-  "python.linting.pylintArgs": [
-    "max-line-length=88",
-    "--disable=bad-continuation,redefined-outer-name",
-  ],
-  "python.pythonPath": "/Users/philippeguay/.pyenv/shims/python",
-  "python.sortImports.args": [
-    "--recursive",
-    "--atomic"
-  ],
-  "python.testing.pytestEnabled": true,
-  "python.testing.pytestArgs": [],
-  "python.testing.unittestEnabled": false,
-  "python.venvPath": "/Users/philippeguay/Library/Caches/pypoetry/virtualenvs/",
-  "python.envFile": "${workspaceFolder}/.env",
-  "restructuredtext.linter.extraArgs": [
-    "--max-line-length=88"
-  ],
-  "rewrap.autoWrap.enabled": true,
-  "search.exclude": {
-    "**/.git/*": true,
-    "**/.git/**": true,
-    "**/__pycache__/**": true
-  },
-  "terminal.external.osxExec": "iTerm.app",
-  "terminal.integrated.shell.osx": "/bin/zsh",
-  "vsicons.dontShowNewVersionMessage": true,
-  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-  "vs-kubernetes": {
-    "vs-kubernetes.helm-path": "/Users/philippeguay/.vs-kubernetes/tools/helm/darwin-amd64/helm",
-    "vs-kubernetes.draft-path": "/Users/philippeguay/.vs-kubernetes/tools/draft/darwin-amd64/draft",
-    "vs-kubernetes.kubectl-path": "/Users/philippeguay/.vs-kubernetes/tools/kubectl/kubectl",
-    "vs-kubernetes.minikube-path": "/Users/philippeguay/.vs-kubernetes/tools/minikube/darwin-amd64/minikube",
-    "vs-kubernetes.minikube-path.mac": "/Users/philippeguay/.vs-kubernetes/tools/minikube/darwin-amd64/minikube"
-  },
-  "window.zoomLevel": 0,
-  "workbench.colorCustomizations": {
-    "activityBarBadge.background": "#FF7042",
-    "breadcrumb.activeSelectionForeground": "#FF7042",
-    "editorSuggestWidget.highlightForeground": "#FF7042",
-    "editorWidget.border": "#FF7042",
-    "editorWidget.resizeBorder": "#FF7042",
-    "list.activeSelectionForeground": "#FF7042",
-    "list.highlightForeground": "#FF7042",
-    "list.inactiveSelectionForeground": "#FF7042",
-    "menu.selectionForeground": "#FF7042",
-    "menubar.selectionForeground": "#FF7042",
-    "notificationLink.foreground": "#FF7042",
-    "panelTitle.activeBorder": "#FF7042",
-    "pickerGroup.foreground": "#FF7042",
-    "progressBar.background": "#FF7042",
-    "scrollbarSlider.activeBackground": "#FF704250",
-    "settings.headerForeground": "#FF7042",
-    "settings.modifiedItemIndicator": "#FF7042",
-    "tab.activeBorder": "#FF7042",
-    "textLink.foreground": "#FF7042"
-  },
-  "workbench.editor.enablePreviewFromQuickOpen": false,
-  "workbench.colorTheme": "Solarized Light",
-  "workbench.editor.highlightModifiedTabs": true,
-  "workbench.iconTheme": "material-icon-theme",
-  "workbench.startupEditor": "newUntitledFile",
-  "workbench.statusBar.feedback.visible": false,
-  "workbench.statusBar.visible": true,
-  "workbench.activityBar.visible": true,
-  "yaml.format.enable": false,
-  "shellcheck.disableVersionCheck": true,
-  "tabnine.experimentalAutoImports": true,
-  "python.languageServer": "Microsoft",
-  "go.formatTool": "goimports",
-}
+    "python.linting.flake8Enabled": false,
+    "python.linting.lintOnSave": true,
+    "python.linting.mypyEnabled": true,
+    "python.linting.pycodestyleEnabled": true,
+    "python.linting.pycodestyleArgs": [
+      "--max-line-length=88"
+    ],
+    "python.linting.prospectorArgs": [
+      "-s",
+      "veryhigh"
+    ],
+    "python.linting.pydocstyleArgs": [
+      "--convention=numpy",
+      "--ignore=D102"
+    ],
+    "python.linting.pylamaEnabled": true,
+    "python.linting.pydocstyleEnabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.linting.pylintArgs": [
+      "max-line-length=88",
+      "--disable=bad-continuation,redefined-outer-name",
+    ],
+    "python.pythonPath": "/Users/philippeguay/.pyenv/shims/python",
+    "python.sortImports.args": [
+      "--recursive",
+      "--atomic"
+    ],
+    "python.testing.pytestEnabled": true,
+    "python.testing.pytestArgs": [],
+    "python.testing.unittestEnabled": false,
+    "python.venvPath": "/Users/philippeguay/Library/Caches/pypoetry/virtualenvs/",
+    "python.envFile": "${workspaceFolder}/.env",
+    "restructuredtext.linter.extraArgs": [
+      "--max-line-length=88"
+    ],
+    "rewrap.autoWrap.enabled": true,
+    "search.exclude": {
+      "**/.git/*": true,
+      "**/.git/**": true,
+      "**/__pycache__/**": true
+    },
+    "terminal.external.osxExec": "iTerm.app",
+    "terminal.integrated.shell.osx": "/bin/zsh",
+    "vsicons.dontShowNewVersionMessage": true,
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "vs-kubernetes": {
+      "vs-kubernetes.helm-path": "/Users/philippeguay/.vs-kubernetes/tools/helm/darwin-amd64/helm",
+      "vs-kubernetes.draft-path": "/Users/philippeguay/.vs-kubernetes/tools/draft/darwin-amd64/draft",
+      "vs-kubernetes.kubectl-path": "/Users/philippeguay/.vs-kubernetes/tools/kubectl/kubectl",
+      "vs-kubernetes.minikube-path": "/Users/philippeguay/.vs-kubernetes/tools/minikube/darwin-amd64/minikube",
+      "vs-kubernetes.minikube-path.mac": "/Users/philippeguay/.vs-kubernetes/tools/minikube/darwin-amd64/minikube"
+    },
+    "workbench.colorCustomizations": {
+      "activityBarBadge.background": "#FF7042",
+      "breadcrumb.activeSelectionForeground": "#FF7042",
+      "editorSuggestWidget.highlightForeground": "#FF7042",
+      "editorWidget.border": "#FF7042",
+      "editorWidget.resizeBorder": "#FF7042",
+      "list.activeSelectionForeground": "#FF7042",
+      "list.highlightForeground": "#FF7042",
+      "list.inactiveSelectionForeground": "#FF7042",
+      "menu.selectionForeground": "#FF7042",
+      "menubar.selectionForeground": "#FF7042",
+      "notificationLink.foreground": "#FF7042",
+      "panelTitle.activeBorder": "#FF7042",
+      "pickerGroup.foreground": "#FF7042",
+      "progressBar.background": "#FF7042",
+      "scrollbarSlider.activeBackground": "#FF704250",
+      "settings.headerForeground": "#FF7042",
+      "settings.modifiedItemIndicator": "#FF7042",
+      "tab.activeBorder": "#FF7042",
+      "textLink.foreground": "#FF7042"
+    },
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "workbench.colorTheme": "Visual Studio Dark",
+    "workbench.editor.highlightModifiedTabs": true,
+    "workbench.startupEditor": "newUntitledFile",
+    "workbench.statusBar.feedback.visible": false,
+    "workbench.statusBar.visible": true,
+    "workbench.activityBar.visible": true,
+    "yaml.format.enable": false,
+    "shellcheck.disableVersionCheck": true,
+    "tabnine.experimentalAutoImports": true,
+    "python.languageServer": "Pylance",
+    "go.formatTool": "goimports",
+    "python.analysis.completeFunctionParens": true,
+    "window.zoomLevel": 1,
+  }
