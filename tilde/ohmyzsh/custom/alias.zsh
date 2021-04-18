@@ -2,25 +2,8 @@ workon() {
   . ./$1/bin/activate
 }
 
-newvenv(){
- python3 -m venv venv && . ./venv/bin/activate
-}
-
-notify(){
- say command done
-}
-
 initgithooks(){
   cp ~/dev/user-scripts/dot-git/hooks/prepare-commit-msg/prepare-commit-msg ./.git/hooks/prepare-commit-msg
-}
-
-# Expects to have findutils brew package installed
-run_per_users(){
-   gfind /mnt/projects/eai-nlp/models-ckpt/eaiwb -type d -printf '%d\t%P\t%u\n' | egrep '^2' | cut -f3- | awk '{user[$0] += 1 } END { for (i in user) { printf "%s:%s\n",i, user[i]; }}'
-}
-# Expects to have findutils brew package installed
-total_runs(){
-   gfind /mnt/projects/eai-nlp/models-ckpt/eaiwb -type d -printf '%d\t%P\t%u\n' | egrep '^2' | wc -l
 }
 
 gitclean() {
@@ -63,11 +46,6 @@ alias k.usecontext="kubectl_use_context"
 alias k.tests="kubectl get pods -l category=system-tests"
 
 # System Aliases
-alias mountprojects="sshfs -o allow_other,defer_permissions,reconnect wks1:/mnt/projects/ /mnt/projects"
-alias mountdatasets="sshfs -o allow_other,defer_permissions,reconnect wks1:/mnt/datasets/ /mnt/datasets"
-alias mounthome="sshfs -o defer_permissions,reconnect wks1:/mnt/home/ /mnt/home"
-alias cdservices="cd /mnt/projects/eai-nlp/services"
-alias cdckpt="cd /mnt/projects/eai-nlp/models-ckpt"
 alias myalias='vim $ZSH_CUSTOM/alias.zsh'
 
 zshalias(){
@@ -90,7 +68,7 @@ setup_artifactory(){
            export ARTIFACTORY_USER="$ARTIFACTORY_SCRATCH_USERNAME"
            export ARTIFACTORY_TOKEN="$ARTIFACTORY_SCRATCH_API_KEY"
            export ARTIFACTORY_API_KEY="$ARTIFACTORY_SCRATCH_API_KEY"
-        else 
+        else
            echo "should be release or scratch"
         fi
 }
